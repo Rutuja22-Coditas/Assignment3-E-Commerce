@@ -8,21 +8,32 @@
 
 import UIKit
 
+protocol removeFromCartButtonIndex {
+    func removeFromCartButton(index : Int)
+}
+
+protocol callVendorButton {
+    func callVendor(index : Int)
+}
 class CartTableViewCell: UITableViewCell {
-    
     
     @IBOutlet weak var cProductImage: UIImageView!
     @IBOutlet weak var cProductNameLbl: UILabel!
     @IBOutlet weak var cVendorNameLbl: UILabel!
     @IBOutlet weak var cVendorAddressLbl: UILabel!
-    //    @IBOutlet weak var cProductImage: UIImageView!
-//       @IBOutlet weak var cProductNameLbl: UILabel!
-//       @IBOutlet weak var cVendorNameLbl: UILabel!
     @IBOutlet weak var priceLbl: UILabel!
+    
     @IBAction func removeFromCartButton(_ sender: Any) {
+        removeDelegate?.removeFromCartButton(index: index!.row)
     }
+    
     @IBAction func callVendorButton(_ sender: Any) {
+        callVendorDelegate?.callVendor(index: index!.row)
     }
+    
+    var removeDelegate : removeFromCartButtonIndex?
+    var callVendorDelegate : callVendorButton?
+    var index : IndexPath?
     //       @IBOutlet weak var cVendorAddressLbl: UILabel!
 //       var removeDelegate : removeFromCart?
 //       var index:IndexPath?

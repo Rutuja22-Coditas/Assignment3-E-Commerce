@@ -97,7 +97,6 @@
 				7E4414BF270AC96D00AF0404 /* Controller */,
 				7E35D752270A031D0067D7DB /* AppDelegate.swift */,
 				7E35D754270A031D0067D7DB /* SceneDelegate.swift */,
-				7E35D758270A031D0067D7DB /* Main.storyboard */,
 				7E35D75B270A031F0067D7DB /* Assets.xcassets */,
 				7E35D75D270A031F0067D7DB /* LaunchScreen.storyboard */,
 				7E35D760270A031F0067D7DB /* Info.plist */,
@@ -129,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				7E423266270A20BC00134229 /* User.swift */,
+				7E4414C3270ACA0100AF0404 /* ProductInfo.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -136,7 +136,7 @@
 		7E4414C2270AC9B500AF0404 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				7E4414C3270ACA0100AF0404 /* ProductInfo.xcdatamodeld */,
+				7E35D758270A031D0067D7DB /* Main.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -147,7 +147,6 @@
 				EEBC91312FEC1C8F46DA4D1D /* Pods-Assignment3-E-Commerce.debug.xcconfig */,
 				68039D4A954A5B2B60DF9941 /* Pods-Assignment3-E-Commerce.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

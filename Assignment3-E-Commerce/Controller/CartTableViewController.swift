@@ -9,8 +9,8 @@
 import UIKit
 import CoreData
 
-class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
-
+class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource, removeFromCartButtonIndex, callVendorButton {
+    
     @IBOutlet weak var cartTableView: UITableView!
     
      let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -21,6 +21,8 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
         //var productNamee = [String:String]
         var price = 0
         let viewController = CollectionViewCell()
+    
+    let application = UIApplication.shared
         //let realm = try! Realm()
         //let results = try! Realm().objects(RealmProduct.self)
         
@@ -55,12 +57,13 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = cartTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CartTableViewCell
             cell.cProductNameLbl.text = cartItem[indexPath.row].productname
-//            cell.cVendorAddressLbl.text = cartProduct[indexPath.row].vendoraddress
-//            cell.cVendorNameLbl.text = cartProduct[indexPath.row].vendorname
-//            cell.priceLbl.text = cartProduct[indexPath.row].price
+            cell.cVendorAddressLbl.text = cartItem[indexPath.row].vendoraddress
+            cell.cVendorNameLbl.text = cartItem[indexPath.row].vendorname
+            cell.priceLbl.text = cartItem[indexPath.row].price
             
-            //cell.removeDelegate = self
-            //cell.index = indexPath
+            cell.removeDelegate = self
+            cell.callVendorDelegate = self
+            cell.index = indexPath
             
             return cell
         }
@@ -77,6 +80,48 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
         cartTableView.reloadData()
            
        }
+    
+    func removeFromCartButton(index: Int) {
+        context.delete(cartItem[index])
+        cartItem.remove(at: index)
+        do{
+            try context.save()
+        }catch{
+            print("Eoor in deleting data",error)
+        }
+        cartTableView.reloadData()
+    }
+    
+    func callVendor(index: Int) {
+        if let phoneCall = URL(string: cartItem[index].phoneNumber!){
+            if application.canOpenURL(phoneCall){
+                application.open(phoneCall, options: [:], completionHandler: nil)
+            }
+            else{
+                //alert
+                showAlert()
+            }
+        }
+    }
+    
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        cartTableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 110
+    }
+    
+       func showAlert(){
+                    let alert = UIAlertController(title: "Not Reachable", message: "Enter correct number", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "ok", style: .cancel, handler: { (action) in
+    
+                    }))
+                    present(alert, animated: true)
+                }
+
 //        func remove(index: Int) {
 //
 //            do{
