@@ -14,11 +14,11 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
 
     @IBOutlet weak var collectionView: UICollectionView!
     var product = [Product]()
-    var cartItem = [ProductInfo]()
+    //var cartItem = [ProductInfo]()
     var productViewModel = ProductViewModel()
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
+    let request : NSFetchRequest<ProductInfo> = ProductInfo.fetchRequest()
     override func viewDidLoad() {
         super.viewDidLoad()
         productViewModel.fetchData{
@@ -31,9 +31,10 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         }
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         //loadData()
+        //getData()
         //print("CartItem",cartItem)
         //collectionView.reloadData()
-
+        
         //collectionView.reloadData()
         // Do any additional setup after loading the view.
     }
@@ -44,6 +45,13 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         }
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
+            if let img = try? Data(contentsOf: URL(string: product[indexPath.row].productImg)!){
+                //ProductInfo.image = UIImage(data: img)
+                cell.productImg.image = UIImage(data: img)
+            }
+            else{
+                cell.productImg.image = UIImage(systemName: "person.crop.circle")
+            }
             cell.productNameLbl.text = product[indexPath.row].productname
             cell.priceLbl.text = product[indexPath.row].price
             cell.vendorNameLbl.text = product[indexPath.row].vendorname
@@ -66,23 +74,18 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         }
    func onClickButton(index: Int) {
                 print(index,"index is")
-    
-    
-    let productInfo = ProductInfo(context: context)
-    productInfo.productname = product[index].productname
-    productInfo.vendorname = product[index].vendorname
-    productInfo.vendoraddress = product[index].vendoraddress
-    productInfo.price = product[index].price
-    productInfo.productImg = product[index].productImg
-    productInfo.phoneNumber = product[index].phoneNumber
-
-    //let entityName = NSEntityDescription.entity(forEntityName: "ProductInfo", in: context)
-    //let newEntity = NSManagedObject(entity: entityName!, insertInto: context)
-    saveData()
-//    newEntity.setValue(product[index].productname, forKey: "productname")
-//    newEntity.setValue(product[index].vendorname, forKey: "vendorname")
-//    newEntity.setValue(product[index].vendoraddress, forKey: "vendoraddress'/")
-    
+                let productInfo = ProductInfo(context: context)
+                productInfo.productname = product[index].productname
+                productInfo.vendorname = product[index].vendorname
+                productInfo.vendoraddress = product[index].vendoraddress
+                productInfo.price = product[index].price
+                productInfo.productImg = product[index].productImg
+                productInfo.phoneNumber = product[index].phoneNumber
+                saveData()
+                
+    let request : NSFetchRequest<ProductInfo> = ProductInfo.fetchRequest()
+    let result = try! context.fetch(request)
+    print("last item",result.endIndex)
 }
     func saveData(){
         do{
@@ -97,11 +100,14 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
    
     
 //    func getData(){
-//        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-//        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "ProductInfo")
+//        //let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//        //let request = NSFetchRequest<NSFetchRequestResult>(entityName: "ProductInfo")
+//
+//       let request : NSFetchRequest<ProductInfo> = ProductInfo.fetchRequest()
 //        do{
 //            let result = try context.fetch(request)
 //            print(result)
+//
 //        }
 //        catch{
 //            print("Failed")
@@ -131,13 +137,13 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
 //            }
        
 //
-//            func showAlert(){
-//                let alert = UIAlertController(title: "Go To Cart", message: "Product is already in cart", preferredStyle: .alert)
-//                alert.addAction(UIAlertAction(title: "ok", style: .cancel, handler: { (action) in
-//
-//                }))
-//                present(alert, animated: true)
-//            }
+            func showAlert(){
+                let alert = UIAlertController(title: "Go To Cart", message: "Product is already in cart", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "ok", style: .cancel, handler: { (action) in
+
+                }))
+                present(alert, animated: true)
+            }
     
 }
 

@@ -9,15 +9,15 @@
 import UIKit
 import CoreData
 
-class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource, removeFromCartButtonIndex, callVendorButton {
+class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource, removeFromCartButtonIndex {
     
     @IBOutlet weak var cartTableView: UITableView!
     
      let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    var cartProduct = [Product]()
+     var cartProduct = [Product]()
     
     var cartItem = [ProductInfo]()
-        var indexId : Int = 0
+        var totalPrice : Int = 5000
         //var productNamee = [String:String]
         var price = 0
         let viewController = CollectionViewCell()
@@ -28,11 +28,7 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
         
         override func viewDidLoad() {
             super.viewDidLoad()
-           //  cartTableView.reloadData()
-//            DispatchQueue.main.async {
-//                self.cartTableView.reloadData()
-//            }
-            
+          
             cartTableView.register(UINib(nibName: "CartTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
            
             let footer = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50))
@@ -40,54 +36,72 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
             cartTableView.tableFooterView = footer
             
             let label = UILabel(frame: footer.bounds)
-            label.text = "Total Price: 0"
+            label.text = "Total Price: \(totalPrice)"
             label.textAlignment = .center
             footer.addSubview(label)
             
-            print("index",indexId)
-            //cartTableView.reloadData()
-            
-            loadData()
+            //loadData()
             
         }
+        override func viewWillAppear(_ animated: Bool) {
+            loadData()
+        }
+    
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             return cartItem.count
         }
         
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = cartTableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CartTableViewCell
+            
+            if let img = try? Data(contentsOf: URL(string: cartItem[indexPath.row].productImg!)!){
+                cell.cProductImage.image = UIImage(data: img)
+            }
+            else{
+                cell.cProductImage.image = UIImage(systemName: "person.crop.circle")
+            }
+                //ProductInfo.image = UIImage(data: img)
             cell.cProductNameLbl.text = cartItem[indexPath.row].productname
             cell.cVendorAddressLbl.text = cartItem[indexPath.row].vendoraddress
             cell.cVendorNameLbl.text = cartItem[indexPath.row].vendorname
             cell.priceLbl.text = cartItem[indexPath.row].price
             
             cell.removeDelegate = self
-            cell.callVendorDelegate = self
+            //cell.callVendorDelegate = self
             cell.index = indexPath
             
             return cell
         }
     
     func loadData() {
+        //cartTableView.reloadData()
+
            let request : NSFetchRequest<ProductInfo> = ProductInfo.fetchRequest()
            do{
                cartItem = try context.fetch(request)
+            print("cartItem£££££££££££££££££",cartItem.endIndex)
            }
            catch{
                print("error fetching data from context\(error)")
            }
-        
-        cartTableView.reloadData()
-           
+
+       cartTableView.reloadData()
+
        }
     
     func removeFromCartButton(index: Int) {
         context.delete(cartItem[index])
+        let a = Int(cartItem[index].price!)
+        totalPrice = totalPrice - a!
+        print(totalPrice)
         cartItem.remove(at: index)
+        print("remove",cartItem.endIndex)
+       
+        
         do{
             try context.save()
         }catch{
-            print("Eoor in deleting data",error)
+            print("Error in deleting data",error)
         }
         cartTableView.reloadData()
     }
@@ -134,7 +148,7 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
 //            catch{
 //                print("error in removing the product",error)
 //            }
-//        }
+//
     
    
 }

@@ -44,7 +44,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="18" id="6Jq-HF-VvX"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -80,6 +80,7 @@
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="twj-kA-qUs"/>
                                                     </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                     <state key="normal" title="Add To Cart"/>
                                                     <connections>
                                                         <action selector="addToCartPressed:" destination="tln-ms-KV5" eventType="touchUpInside" id="mam-Zv-Aac"/>
