@@ -151,31 +151,45 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BY0-qb-ORn">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="687"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="83M-mZ-68Q" id="ZeM-5p-YSD"/>
                                     <outlet property="delegate" destination="83M-mZ-68Q" id="PlO-0l-6fW"/>
                                 </connections>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Price :" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xvc-ZJ-5JL">
+                                <rect key="frame" x="0.0" y="775" width="414" height="38"/>
+                                <color key="backgroundColor" red="0.99953407049999998" green="0.98835557699999999" blue="0.47265523669999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="c0l-Yi-NLC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="oZT-hC-2yO" firstAttribute="trailing" secondItem="BY0-qb-ORn" secondAttribute="trailing" id="Fzr-jS-Qvf"/>
-                            <constraint firstItem="oZT-hC-2yO" firstAttribute="bottom" secondItem="BY0-qb-ORn" secondAttribute="bottom" id="QiV-o5-X07"/>
-                            <constraint firstItem="BY0-qb-ORn" firstAttribute="top" secondItem="oZT-hC-2yO" secondAttribute="top" id="eMg-dx-YsT"/>
-                            <constraint firstItem="BY0-qb-ORn" firstAttribute="leading" secondItem="oZT-hC-2yO" secondAttribute="leading" id="w4n-vK-Ube"/>
+                            <constraint firstItem="BY0-qb-ORn" firstAttribute="trailing" secondItem="oZT-hC-2yO" secondAttribute="trailing" id="2kH-iY-nDD"/>
+                            <constraint firstItem="xvc-ZJ-5JL" firstAttribute="leading" secondItem="oZT-hC-2yO" secondAttribute="leading" id="32a-OX-gYv"/>
+                            <constraint firstItem="xvc-ZJ-5JL" firstAttribute="top" secondItem="BY0-qb-ORn" secondAttribute="bottom" id="4Pp-Am-IMi"/>
+                            <constraint firstItem="xvc-ZJ-5JL" firstAttribute="trailing" secondItem="oZT-hC-2yO" secondAttribute="trailing" id="HxR-M7-gha"/>
+                            <constraint firstItem="BY0-qb-ORn" firstAttribute="leading" secondItem="oZT-hC-2yO" secondAttribute="leading" id="Z98-mp-xg9"/>
+                            <constraint firstItem="BY0-qb-ORn" firstAttribute="top" secondItem="oZT-hC-2yO" secondAttribute="top" id="gJ6-od-XX9"/>
+                            <constraint firstItem="xvc-ZJ-5JL" firstAttribute="bottom" secondItem="oZT-hC-2yO" secondAttribute="bottom" id="ky6-P4-sJm"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="oZT-hC-2yO"/>
                     </view>
                     <navigationItem key="navigationItem" title="Cart" id="qeV-AG-8Dw"/>
                     <connections>
                         <outlet property="cartTableView" destination="BY0-qb-ORn" id="YWK-CB-tQ2"/>
+                        <outlet property="totalPriceLabel" destination="xvc-ZJ-5JL" id="QdO-U0-vjb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1bM-lA-wdH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1783" y="844"/>
+            <point key="canvasLocation" x="1782.608695652174" y="843.75"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="oFW-h2-pdF">

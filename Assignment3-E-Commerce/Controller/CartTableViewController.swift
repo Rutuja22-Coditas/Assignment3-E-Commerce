@@ -12,12 +12,13 @@ import CoreData
 class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource, removeFromCartButtonIndex {
     
     @IBOutlet weak var cartTableView: UITableView!
+    @IBOutlet weak var totalPriceLabel: UILabel!
     
      let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
      var cartProduct = [Product]()
     
     var cartItem = [ProductInfo]()
-        var totalPrice : Int = 5000
+        var totalPrice : Int = 0
         //var productNamee = [String:String]
         var price = 0
         let viewController = CollectionViewCell()
@@ -31,14 +32,14 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
           
             cartTableView.register(UINib(nibName: "CartTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
            
-            let footer = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50))
-            footer.backgroundColor = .gray
-            cartTableView.tableFooterView = footer
-            
-            let label = UILabel(frame: footer.bounds)
-            label.text = "Total Price: \(totalPrice)"
-            label.textAlignment = .center
-            footer.addSubview(label)
+//            let footer = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50))
+//            footer.backgroundColor = .gray
+//            cartTableView.tableFooterView = footer
+//
+//            let totalPriceLabel = UILabel(frame: footer.bounds)
+//            totalPriceLabel.text = "Total Price: \(totalPrice)"
+//            totalPriceLabel.textAlignment = .center
+//            footer.addSubview(totalPriceLabel)
             
             //loadData()
             
@@ -70,6 +71,9 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
             //cell.callVendorDelegate = self
             cell.index = indexPath
             
+//            let a = Int(cartItem[indexPath.row].price!)
+//            totalPrice += a!
+//            totalPriceLabel.text = "Total Price : \(totalPrice)"
             return cell
         }
     
@@ -77,8 +81,21 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
         //cartTableView.reloadData()
 
            let request : NSFetchRequest<ProductInfo> = ProductInfo.fetchRequest()
+           //let result = try! context.fetch(request)
+            
            do{
                cartItem = try context.fetch(request)
+            if cartItem.endIndex - 1 < 0{
+                totalPriceLabel.text = "\(0)"
+            }
+            else{
+                let a = cartItem.endIndex - 1
+                           let b = Int(cartItem[a].price!)
+                           totalPrice += b!
+                               
+                           totalPriceLabel.text = "Total price : \(totalPrice)"
+            }
+           
             print("cartItem£££££££££££££££££",cartItem.endIndex)
            }
            catch{
@@ -93,7 +110,8 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
         context.delete(cartItem[index])
         let a = Int(cartItem[index].price!)
         totalPrice = totalPrice - a!
-        print(totalPrice)
+        //print(totalPrice)
+        totalPriceLabel.text = "Total Price:\(totalPrice)"
         cartItem.remove(at: index)
         print("remove",cartItem.endIndex)
        
@@ -136,19 +154,5 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
                     present(alert, animated: true)
                 }
 
-//        func remove(index: Int) {
-//
-//            do{
-//                try realm.write{
-//                    realm.delete(results[index])
-//                }
-//                cartTableView.reloadData()
-//
-//            }
-//            catch{
-//                print("error in removing the product",error)
-//            }
-//
-    
    
 }

@@ -74,19 +74,34 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         }
    func onClickButton(index: Int) {
                 print(index,"index is")
-                let productInfo = ProductInfo(context: context)
-                productInfo.productname = product[index].productname
-                productInfo.vendorname = product[index].vendorname
-                productInfo.vendoraddress = product[index].vendoraddress
-                productInfo.price = product[index].price
-                productInfo.productImg = product[index].productImg
-                productInfo.phoneNumber = product[index].phoneNumber
-                saveData()
+    //let result = try! context.fetch(request)
+    //for i in result{
+//        if i.productname == product[index].productname{
+//            showAlert()
+//            break
+//        }
+        
+            let productInfo = ProductInfo(context: context)
+                                productInfo.productname = product[index].productname
+                                productInfo.vendorname = product[index].vendorname
+                                productInfo.vendoraddress = product[index].vendoraddress
+                                productInfo.price = product[index].price
+                                productInfo.productImg = product[index].productImg
+                                productInfo.phoneNumber = product[index].phoneNumber
+                                saveData()
+              
+        
+    //}
+    
+  
+              
                 
-    let request : NSFetchRequest<ProductInfo> = ProductInfo.fetchRequest()
-    let result = try! context.fetch(request)
-    print("last item",result.endIndex)
+//    let request : NSFetchRequest<ProductInfo> = ProductInfo.fetchRequest()
+//    let result = try! context.fetch(request)
+//    print("last item",result.endIndex)
 }
+    
+      
     func saveData(){
         do{
               try context.save()
