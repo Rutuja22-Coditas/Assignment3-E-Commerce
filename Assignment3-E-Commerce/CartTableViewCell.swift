@@ -15,6 +15,7 @@ protocol removeFromCartButtonIndex {
 protocol callVendorButton {
     func callVendor(index : Int)
 }
+
 class CartTableViewCell: UITableViewCell {
     
     @IBOutlet weak var cProductImage: UIImageView!

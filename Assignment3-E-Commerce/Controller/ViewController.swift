@@ -16,9 +16,11 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
     var product = [Product]()
     //var cartItem = [ProductInfo]()
     var productViewModel = ProductViewModel()
-    
+    var cartTableVC = CartTableViewController()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     let request : NSFetchRequest<ProductInfo> = ProductInfo.fetchRequest()
+    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         productViewModel.fetchData{
@@ -72,35 +74,58 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
     //        cell.addToCartPressed.addTarget(self, action: #selector(viewDetail), for: .touchUpInside)
             return cell
         }
+   
    func onClickButton(index: Int) {
                 print(index,"index is")
-    //let result = try! context.fetch(request)
-    //for i in result{
+    let result = try! context.fetch(request)
+    var cartProductsList = [String]()
+    
+    for i in result{
+        cartProductsList.append(i.productname!)
+        let a = Int(i.price!)
+        var b = 0
+        b += a!
+        cartTableVC.totalPrice = b
+        print("cartProductsList",cartProductsList)
+    }
+    
+    if cartProductsList.contains(product[index].productname){
+        showAlert()
+    
+    }
+    else{
+              print("else")
+              let productInfo = ProductInfo(context: context)
+              productInfo.productname = product[index].productname
+              productInfo.vendorname = product[index].vendorname
+              productInfo.vendoraddress = product[index].vendoraddress
+              productInfo.price = product[index].price
+              productInfo.productImg = product[index].productImg
+              productInfo.phoneNumber = product[index].phoneNumber
+              //productInfo.totalPrice = product[index].price
+              saveData()
+          }
+//    for i in result{
 //        if i.productname == product[index].productname{
 //            showAlert()
+//            print("ok")
 //            break
 //        }
-        
-            let productInfo = ProductInfo(context: context)
-                                productInfo.productname = product[index].productname
-                                productInfo.vendorname = product[index].vendorname
-                                productInfo.vendoraddress = product[index].vendoraddress
-                                productInfo.price = product[index].price
-                                productInfo.productImg = product[index].productImg
-                                productInfo.phoneNumber = product[index].phoneNumber
-                                saveData()
-              
-        
-    //}
-    
-  
-              
-                
-//    let request : NSFetchRequest<ProductInfo> = ProductInfo.fetchRequest()
-//    let result = try! context.fetch(request)
-//    print("last item",result.endIndex)
-}
-    
+//        else{
+//            print("else")
+//            let productInfo = ProductInfo(context: context)
+//            productInfo.productname = product[index].productname
+//            productInfo.vendorname = product[index].vendorname
+//            productInfo.vendoraddress = product[index].vendoraddress
+//            productInfo.price = product[index].price
+//            productInfo.productImg = product[index].productImg
+//            productInfo.phoneNumber = product[index].phoneNumber
+//            //productInfo.totalPrice = product[index].price
+//            saveData()
+//        }
+//
+//    }
+    }    
       
     func saveData(){
         do{
@@ -157,7 +182,7 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
                 alert.addAction(UIAlertAction(title: "ok", style: .cancel, handler: { (action) in
 
                 }))
-                present(alert, animated: true)
+                  present(alert, animated: true)
             }
     
 }

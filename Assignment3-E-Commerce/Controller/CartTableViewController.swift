@@ -19,13 +19,11 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
     
     var cartItem = [ProductInfo]()
         var totalPrice : Int = 0
-        //var productNamee = [String:String]
-        var price = 0
+    
         let viewController = CollectionViewCell()
     
     let application = UIApplication.shared
-        //let realm = try! Realm()
-        //let results = try! Realm().objects(RealmProduct.self)
+    var indexRow : Int = 0
         
         override func viewDidLoad() {
             super.viewDidLoad()
@@ -65,12 +63,14 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
             cell.cProductNameLbl.text = cartItem[indexPath.row].productname
             cell.cVendorAddressLbl.text = cartItem[indexPath.row].vendoraddress
             cell.cVendorNameLbl.text = cartItem[indexPath.row].vendorname
-            cell.priceLbl.text = cartItem[indexPath.row].price
+            cell.priceLbl.text = "Price: "+cartItem[indexPath.row].price!
             
             cell.removeDelegate = self
             //cell.callVendorDelegate = self
             cell.index = indexPath
             
+            indexRow = indexPath.row
+            print("indexrow",indexRow)
 //            let a = Int(cartItem[indexPath.row].price!)
 //            totalPrice += a!
 //            totalPriceLabel.text = "Total Price : \(totalPrice)"
@@ -81,26 +81,19 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
         //cartTableView.reloadData()
 
            let request : NSFetchRequest<ProductInfo> = ProductInfo.fetchRequest()
-           //let result = try! context.fetch(request)
-            
-           do{
-               cartItem = try context.fetch(request)
-            if cartItem.endIndex - 1 < 0{
-                totalPriceLabel.text = "\(0)"
-            }
-            else{
-                let a = cartItem.endIndex - 1
-                           let b = Int(cartItem[a].price!)
-                           totalPrice += b!
-                               
-                           totalPriceLabel.text = "Total price : \(totalPrice)"
-            }
-           
-            print("cartItem£££££££££££££££££",cartItem.endIndex)
-           }
-           catch{
-               print("error fetching data from context\(error)")
-           }
+           let result = try! context.fetch(request)
+        var totalPriceArray = [String]()
+        cartItem = result
+        //totalPriceLabel.text = "Total Price: \(totalPrice)"
+        totalPrice = 0
+        for i in result{
+            //totalPrice = 0
+            totalPriceArray.append(i.productname!)
+            let a = Int( i.price!)
+            totalPrice += a!
+            totalPriceLabel.text = "Total Price: Rs \(totalPrice)"
+
+        }
 
        cartTableView.reloadData()
 
@@ -111,7 +104,7 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
         let a = Int(cartItem[index].price!)
         totalPrice = totalPrice - a!
         //print(totalPrice)
-        totalPriceLabel.text = "Total Price:\(totalPrice)"
+        totalPriceLabel.text = "Total Price:\(totalPrice)/-"
         cartItem.remove(at: index)
         print("remove",cartItem.endIndex)
        

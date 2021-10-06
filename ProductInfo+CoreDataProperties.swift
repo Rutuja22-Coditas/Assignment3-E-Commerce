@@ -23,5 +23,7 @@ extension ProductInfo {
     @NSManaged public var productname: String?
     @NSManaged public var vendoraddress: String?
     @NSManaged public var vendorname: String?
+    
+
 
 }
