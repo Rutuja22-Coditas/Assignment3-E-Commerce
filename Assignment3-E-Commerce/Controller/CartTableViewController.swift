@@ -91,7 +91,7 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
             totalPriceArray.append(i.productname!)
             let a = Int( i.price!)
             totalPrice += a!
-            totalPriceLabel.text = "Total Price: Rs \(totalPrice)"
+            totalPriceLabel.text = "Total Price: Rs \(totalPrice)/-"
 
         }
 
