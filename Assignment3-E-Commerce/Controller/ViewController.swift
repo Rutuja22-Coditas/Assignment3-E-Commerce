@@ -14,7 +14,6 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
 
     @IBOutlet weak var collectionView: UICollectionView!
     var product = [Product]()
-    //var cartItem = [ProductInfo]()
     var productViewModel = ProductViewModel()
     var cartTableVC = CartTableViewController()
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -31,14 +30,8 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
             }
             
         }
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-        //loadData()
-        //getData()
-        //print("CartItem",cartItem)
-        //collectionView.reloadData()
-        
-        //collectionView.reloadData()
-        // Do any additional setup after loading the view.
+        //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+ 
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
             //print(product.count)
@@ -48,7 +41,6 @@ class ViewController: UIViewController,UICollectionViewDelegate,UICollectionView
         func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
             if let img = try? Data(contentsOf: URL(string: product[indexPath.row].productImg)!){
-                //ProductInfo.image = UIImage(data: img)
                 cell.productImg.image = UIImage(data: img)
             }
             else{

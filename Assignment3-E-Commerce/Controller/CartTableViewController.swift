@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource, removeFromCartButtonIndex {
+class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewDataSource, removeFromCartButtonIndex, callVendorButton {
     
     @IBOutlet weak var cartTableView: UITableView!
     @IBOutlet weak var totalPriceLabel: UILabel!
@@ -19,9 +19,9 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
     
     var cartItem = [ProductInfo]()
         var totalPrice : Int = 0
-    
-        let viewController = CollectionViewCell()
-    
+//
+//        let viewController = CollectionViewCell()
+//    
     let application = UIApplication.shared
     var indexRow : Int = 0
         
@@ -29,18 +29,6 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
             super.viewDidLoad()
           
             cartTableView.register(UINib(nibName: "CartTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
-           
-//            let footer = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50))
-//            footer.backgroundColor = .gray
-//            cartTableView.tableFooterView = footer
-//
-//            let totalPriceLabel = UILabel(frame: footer.bounds)
-//            totalPriceLabel.text = "Total Price: \(totalPrice)"
-//            totalPriceLabel.textAlignment = .center
-//            footer.addSubview(totalPriceLabel)
-            
-            //loadData()
-            
         }
         override func viewWillAppear(_ animated: Bool) {
             loadData()
@@ -59,21 +47,18 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
             else{
                 cell.cProductImage.image = UIImage(systemName: "person.crop.circle")
             }
-                //ProductInfo.image = UIImage(data: img)
             cell.cProductNameLbl.text = cartItem[indexPath.row].productname
             cell.cVendorAddressLbl.text = cartItem[indexPath.row].vendoraddress
             cell.cVendorNameLbl.text = cartItem[indexPath.row].vendorname
             cell.priceLbl.text = "Price: "+cartItem[indexPath.row].price!
             
             cell.removeDelegate = self
-            //cell.callVendorDelegate = self
+            cell.callVendorDelegate = self
             cell.index = indexPath
             
             indexRow = indexPath.row
             print("indexrow",indexRow)
-//            let a = Int(cartItem[indexPath.row].price!)
-//            totalPrice += a!
-//            totalPriceLabel.text = "Total Price : \(totalPrice)"
+
             return cell
         }
     
@@ -84,7 +69,6 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
            let result = try! context.fetch(request)
         var totalPriceArray = [String]()
         cartItem = result
-        //totalPriceLabel.text = "Total Price: \(totalPrice)"
         totalPrice = 0
         for i in result{
             //totalPrice = 0
@@ -103,7 +87,6 @@ class CartTableViewController: UIViewController,UITableViewDelegate,UITableViewD
         context.delete(cartItem[index])
         let a = Int(cartItem[index].price!)
         totalPrice = totalPrice - a!
-        //print(totalPrice)
         totalPriceLabel.text = "Total Price:\(totalPrice)/-"
         cartItem.remove(at: index)
         print("remove",cartItem.endIndex)

@@ -19,7 +19,6 @@ class ProductViewModel{
                     do{
                         let sharedurlSession = try JSONDecoder().decode(User.self, from: data!)
                         self.product = sharedurlSession.products
-                        print("Product",self.product)
                         completion(sharedurlSession.products)
                     }
                     catch{
